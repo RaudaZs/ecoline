@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecoline — Түс Таңдағыш</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f0f0f0;color:#222}
+.page{max-width:1200px;margin:32px auto;padding:0 20px}
+.viz-title{font-size:22px;font-weight:700;margin-bottom:4px}
+.viz-sub{font-size:13px;color:#888;margin-bottom:20px}
+.viz-layout{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
+
+/* PREVIEW */
+.preview-wrap{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15);background:#f5f2ee;max-height:540px;min-height:540px;display:flex;align-items:center;justify-content:center}
+.room-img{width:100%;display:block;transition:opacity 0.4s;object-fit:contain;max-height:520px;margin:0 auto}
+.room-img.fading{opacity:0.2}
+.load-bar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#c8102e,#ff6b6b,#c8102e);background-size:200%;animation:sh 1s infinite;display:none;z-index:5}
+.load-bar.on{display:block}
+@keyframes sh{0%{background-position:200%}100%{background-position:-200%}}
+.color-badge{position:absolute;bottom:14px;left:14px;background:rgba(255,255,255,.96);border-radius:8px;padding:8px 14px;display:none;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);backdrop-filter:blur(8px);z-index:4}
+.badge-dot{width:28px;height:28px;border-radius:6px;border:2px solid #eee}
+.badge-name{font-size:13px;font-weight:700}
+.badge-code{font-size:11px;color:#888}
+
+/* ПАНЕЛЬ */
+.panel{display:flex;flex-direction:column;gap:12px}
+.box{background:#fff;border-radius:10px;padding:16px;border:1px solid #eee}
+.box-lbl{font-size:10px;font-weight:700;color:#aaa;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px}
+.sel-empty{text-align:center;color:#ccc;padding:16px;font-size:13px;min-height:222px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sel-sw{width:100%;height:72px;border-radius:7px;border:2px solid #eee;margin-bottom:10px;transition:background .3s;display:flex;align-items:center;justify-content:center;font-size:22px}
+.sel-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.sel-code{font-size:12px;color:#888;margin-bottom:4px}
+.sel-hex{font-family:monospace;font-size:11px;background:#f5f5f5;padding:2px 7px;border-radius:4px;display:inline-block;color:#555;margin-bottom:10px}
+.btn-wa{background:#25D366;color:#fff;border:none;padding:10px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;width:100%;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .2s}
+.btn-wa:hover{background:#1daf55}
+.btn-cp{background:#fff;color:#555;border:1.5px solid #ddd;padding:8px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;width:100%;transition:all .2s}
+.btn-cp:hover{border-color:#c8102e;color:#c8102e}
+
+/* БӨЛМЕ БАТЫРМАЛАРЫ */
+.room-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.rt{border:1.5px solid #ddd;background:#fff;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.rt:hover{border-color:#c8102e}
+.rt.on{border-color:#c8102e;background:#c8102e;color:#fff}
+
+/* КАТ */
+.cats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.ct{border:1.5px solid #ddd;background:#fff;padding:3px 9px;border-radius:14px;font-size:10px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.ct:hover,.ct.on{border-color:#c8102e;background:#c8102e;color:#fff}
+.sw-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px}
+.sw{aspect-ratio:1;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:transform .18s,box-shadow .18s}
+.sw:hover{transform:scale(1.2);box-shadow:0 3px 8px rgba(0,0,0,.2);z-index:5;border-color:rgba(255,255,255,.7)}
+.sw.on{border-color:#c8102e!important;transform:scale(1.12);box-shadow:0 0 0 2px rgba(200,16,46,.3);z-index:5}
+
+
+.site-header{background:#fff;border-bottom:2px solid #C8102E;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.hd-inner{width:100%;padding:0 40px 0 16px;display:flex;justify-content:flex-start;align-items:center;height:140px;gap:0}
+.hd-logo{display:flex;align-items:center;margin-right:32px;flex-shrink:0;text-decoration:none}
+.hd-nav{display:flex;align-items:stretch;height:100%;flex:1;gap:4px;margin-left:auto}
+.hd-nav a{color:#6b7280;padding:0 16px;height:100%;display:flex;align-items:center;font-size:14px;font-weight:600;text-decoration:none;transition:.15s;white-space:nowrap;border-bottom:3px solid transparent}
+.hd-nav a:hover{color:#C8102E}
+.hd-nav a.active{color:#C8102E;border-bottom-color:#C8102E}
+.hd-right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.hd-wa{background:#25D366;color:#fff;padding:8px 16px;border-radius:4px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px}
+.hd-wa:hover{background:#1daf55;color:#fff}
+@media(max-width:640px){.hd-nav{display:none}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="hd-inner">
+    <a href="index.html" style="display:flex;align-items:center;flex-shrink:0;margin-left:0;margin-right:32px"><img src="images/ecoline-logo.png" alt="Ecoline" height="120" style="display:block"></a>
+    <nav class="hd-nav">
+      <a href="index.html">Басты бет</a>
+      <a href="index.html#products">Өнімдер</a>
+      <a href="nova-colors.html">Түстер</a>
+      <a href="visualizer.html" class="active">Визуализатор</a>
+      <a href="index.html#contact">Байланыс</a>
+    </nav>
+    <div class="hd-right">
+      <a class="hd-wa" href="https://wa.me/77770050757" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</header>
+<div class="page">
+  <div class="viz-title">🎨 Ecoline Түс Таңдағыш</div>
+  <div class="viz-sub">Бөлмені таңдаңыз → Түс басыңыз → Нәтижені көріңіз</div>
+
+  <div class="viz-layout">
+
+    <!-- PREVIEW — тек 1 фото -->
+    <div class="preview-wrap">
+      <div class="load-bar on" id="lb"></div>
+      <img class="room-img" id="room-img"
+        src=""
+        alt="Бөлме жүктелуде..."
+        onerror="this.alt='Фото жоқ'">
+      <div class="color-badge" id="badge">
+        <div class="badge-dot" id="bd"></div>
+        <div><div class="badge-name" id="bn"></div><div class="badge-code" id="bc"></div></div>
+      </div>
+    </div>
+
+    <!-- ПАНЕЛЬ -->
+    <div class="panel">
+
+      <!-- ТАҢДАЛҒАН ТҮС -->
+      <div class="box">
+        <div class="box-lbl">Таңдалған түс</div>
+        <div id="se" class="sel-empty">
+          <div style="font-size:26px;margin-bottom:4px">🎨</div>
+          Түс таңдалмаған
+        </div>
+        <div id="sd" style="display:none">
+          <div class="sel-sw" id="ssw"></div>
+          <div class="sel-name" id="snm"></div>
+          <div class="sel-code" id="scd"></div>
+          <div class="sel-hex" id="shx"></div>
+          <button class="btn-wa" onclick="order()">💬 WhatsApp тапсырыс</button>
+          <button class="btn-cp" onclick="copy()">📋 HEX көшіру</button>
+        </div>
+      </div>
+
+      <!-- БӨЛМЕ -->
+      <div class="box">
+        <div class="box-lbl">Бөлме таңдаңыз</div>
+        <div class="room-tabs">
+          <button class="rt on" onclick="setRoom('living',this)">🛋️ Қонақ бөлме</button>
+          <button class="rt" onclick="setRoom('bedroom',this)">🛏️ Жатын бөлме</button>
+          <button class="rt" onclick="setRoom('kitchen',this)">🍳 Ас үй</button>
+          <button class="rt" onclick="setRoom('facade',this)">🏠 Фасад</button>
+        </div>
+      </div>
+
+      <!-- ПАЛИТРА -->
+      <div class="box">
+        <div class="box-lbl">Түс палитрасы</div>
+        <div style="position:relative;margin-bottom:8px">
+          <input id="sw-search" type="text" placeholder="🔍 Код бойынша іздеу (F001...)"
+            oninput="render()"
+            style="width:100%;padding:7px 12px;border:1.5px solid #eee;border-radius:7px;font-size:12px;outline:none;font-family:inherit">
+        </div>
+        <div class="sw-grid" id="grid"></div>
+        <div id="grid-more" style="text-align:center;margin-top:8px;display:none">
+          <button onclick="showMore()" style="border:1.5px solid #ddd;background:#fff;padding:6px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;color:#555">
+            Көбірек көрсету ▼
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ════ NOVA 2024 КАТАЛОГ ════
+const NOVA_COLORS = [{"c": "F001", "h": "#B8D4EA", "t": "nova"}, {"c": "G001", "h": "#80B4D2", "t": "nova"}, {"c": "H001", "h": "#5C8DBA", "t": "nova"}, {"c": "J001", "h": "#396CA4", "t": "nova"}, {"c": "K001", "h": "#376396", "t": "nova"}, {"c": "L001", "h": "#002B5F", "t": "nova"}, {"c": "M001", "h": "#000027", "t": "nova"}, {"c": "N001", "h": "#2F609F", "t": "nova"}, {"c": "S001", "h": "#6799C6", "t": "nova"}, {"c": "V001", "h": "#7FA8D3", "t": "nova"}, {"c": "X001", "h": "#F0BC9E", "t": "nova"}, {"c": "Y001", "h": "#FB883B", "t": "nova"}, {"c": "F002", "h": "#A4CDE6", "t": "nova"}, {"c": "G002", "h": "#8CB5E0", "t": "nova"}, {"c": "H002", "h": "#68A0D2", "t": "nova"}, {"c": "J002", "h": "#6993D5", "t": "nova"}, {"c": "K002", "h": "#2665B0", "t": "nova"}, {"c": "L002", "h": "#1F509F", "t": "nova"}, {"c": "M002", "h": "#020772", "t": "nova"}, {"c": "N002", "h": "#659BC9", "t": "nova"}, {"c": "S002", "h": "#87B0DB", "t": "nova"}, {"c": "V002", "h": "#A6C4DE", "t": "nova"}, {"c": "X002", "h": "#FCE89B", "t": "nova"}, {"c": "Y002", "h": "#F4B84D", "t": "nova"}, {"c": "F003", "h": "#BCD9EF", "t": "nova"}, {"c": "G003", "h": "#9EB2DD", "t": "nova"}, {"c": "H003", "h": "#7BA0D3", "t": "nova"}, {"c": "J003", "h": "#6691CB", "t": "nova"}, {"c": "K003", "h": "#2349A5", "t": "nova"}, {"c": "L003", "h": "#010F7A", "t": "nova"}, {"c": "M003", "h": "#02004D", "t": "nova"}, {"c": "N003", "h": "#1A2F81", "t": "nova"}, {"c": "S003", "h": "#3958A4", "t": "nova"}, {"c": "V003", "h": "#95A8CF", "t": "nova"}, {"c": "X003", "h": "#EBDCCA", "t": "nova"}, {"c": "Y003", "h": "#DB702B", "t": "nova"}, {"c": "F004", "h": "#B6D8E3", "t": "nova"}, {"c": "G004", "h": "#94C0E1", "t": "nova"}, {"c": "H004", "h": "#77ACD5", "t": "nova"}, {"c": "J004", "h": "#5794C0", "t": "nova"}, {"c": "K004", "h": "#15548F", "t": "nova"}, {"c": "L004", "h": "#002D74", "t": "nova"}, {"c": "M004", "h": "#020845", "t": "nova"}, {"c": "N004", "h": "#1C5D90", "t": "nova"}, {"c": "S004", "h": "#78A5C5", "t": "nova"}, {"c": "V004", "h": "#9AB8D2", "t": "nova"}, {"c": "X004", "h": "#DADCCE", "t": "nova"}, {"c": "Y004", "h": "#FBB72A", "t": "nova"}, {"c": "F005", "h": "#A4D4E1", "t": "nova"}, {"c": "G005", "h": "#89C4E0", "t": "nova"}, {"c": "H005", "h": "#51A3D7", "t": "nova"}, {"c": "J005", "h": "#0065BF", "t": "nova"}, {"c": "K005", "h": "#010084", "t": "nova"}, {"c": "L005", "h": "#01005B", "t": "nova"}, {"c": "M005", "h": "#000038", "t": "nova"}, {"c": "N005", "h": "#0C74B1", "t": "nova"}, {"c": "S005", "h": "#70ADD8", "t": "nova"}, {"c": "V005", "h": "#9FC9E1", "t": "nova"}, {"c": "X005", "h": "#CFB899", "t": "nova"}, {"c": "Y005", "h": "#E46C1E", "t": "nova"}, {"c": "F006", "h": "#B6D7E9", "t": "nova"}, {"c": "G006", "h": "#9AC3EE", "t": "nova"}, {"c": "H006", "h": "#519CE3", "t": "nova"}, {"c": "J006", "h": "#2C78D5", "t": "nova"}, {"c": "K006", "h": "#0150C5", "t": "nova"}, {"c": "L006", "h": "#01017E", "t": "nova"}, {"c": "M006", "h": "#02003B", "t": "nova"}, {"c": "N006", "h": "#02006E", "t": "nova"}, {"c": "S006", "h": "#0350B8", "t": "nova"}, {"c": "V006", "h": "#3278BE", "t": "nova"}, {"c": "X006", "h": "#EC9B67", "t": "nova"}, {"c": "Y006", "h": "#90471E", "t": "nova"}, {"c": "F007", "h": "#91CCE8", "t": "nova"}, {"c": "G007", "h": "#63B8DE", "t": "nova"}, {"c": "H007", "h": "#1F79D8", "t": "nova"}, {"c": "J007", "h": "#0053B9", "t": "nova"}, {"c": "K007", "h": "#002F9C", "t": "nova"}, {"c": "L007", "h": "#020C76", "t": "nova"}, {"c": "M007", "h": "#02003B", "t": "nova"}, {"c": "N007", "h": "#005090", "t": "nova"}, {"c": "S007", "h": "#469FD5", "t": "nova"}, {"c": "V007", "h": "#71BCE7", "t": "nova"}, {"c": "X007", "h": "#F2D1CA", "t": "nova"}, {"c": "Y007", "h": "#60240F", "t": "nova"}, {"c": "F008", "h": "#87CCE3", "t": "nova"}, {"c": "G008", "h": "#78BCDA", "t": "nova"}, {"c": "H008", "h": "#5DADD6", "t": "nova"}, {"c": "J008", "h": "#2694D5", "t": "nova"}, {"c": "K008", "h": "#014494", "t": "nova"}, {"c": "L008", "h": "#003179", "t": "nova"}, {"c": "M008", "h": "#01003F", "t": "nova"}, {"c": "N008", "h": "#0084BC", "t": "nova"}, {"c": "S008", "h": "#1993C5", "t": "nova"}, {"c": "V008", "h": "#31A4CA", "t": "nova"}, {"c": "X008", "h": "#FDE4E3", "t": "nova"}, {"c": "Y008", "h": "#56483A", "t": "nova"}, {"c": "F009", "h": "#84C9DF", "t": "nova"}, {"c": "G009", "h": "#64BCDE", "t": "nova"}, {"c": "H009", "h": "#0178B0", "t": "nova"}, {"c": "J009", "h": "#00609F", "t": "nova"}, {"c": "F055", "h": "#DCF4E4", "t": "nova"}, {"c": "F074", "h": "#F4FCE8", "t": "nova"}, {"c": "F075", "h": "#F8FCE8", "t": "nova"}, {"c": "F083", "h": "#FCFCE8", "t": "nova"}, {"c": "F087", "h": "#FCFCF0", "t": "nova"}, {"c": "F098", "h": "#FCFCF0", "t": "nova"}, {"c": "F105", "h": "#ECECE4", "t": "nova"}, {"c": "F113", "h": "#F8F0E8", "t": "nova"}, {"c": "G055", "h": "#CCF8D8", "t": "nova"}, {"c": "G105", "h": "#E8E4DC", "t": "nova"}, {"c": "G106", "h": "#E4DCD4", "t": "nova"}, {"c": "H057", "h": "#ACF4BC", "t": "nova"}, {"c": "J060", "h": "#A8EC8C", "t": "nova"}, {"c": "J068", "h": "#ACB8A4", "t": "nova"}, {"c": "J069", "h": "#9CACA8", "t": "nova"}, {"c": "K011", "h": "#0060B8", "t": "nova"}, {"c": "K058", "h": "#80E470", "t": "nova"}, {"c": "K060", "h": "#90D458", "t": "nova"}, {"c": "K091", "h": "#FCD4A0", "t": "nova"}, {"c": "L061", "h": "#508E13", "t": "nova"}, {"c": "L062", "h": "#689848", "t": "nova"}, {"c": "L082", "h": "#FFD700", "t": "nova"}, {"c": "L084", "h": "#F8B03C", "t": "nova"}, {"c": "L093", "h": "#FC9024", "t": "nova"}, {"c": "M062", "h": "#304018", "t": "nova"}, {"c": "M086", "h": "#FCA43C", "t": "nova"}, {"c": "M095", "h": "#FC9840", "t": "nova"}, {"c": "N059", "h": "#88CC80", "t": "nova"}, {"c": "N102", "h": "#A89060", "t": "nova"}, {"c": "N114", "h": "#A87044", "t": "nova"}, {"c": "S055", "h": "#58C48C", "t": "nova"}, {"c": "S058", "h": "#ACE4AC", "t": "nova"}, {"c": "S113", "h": "#D8BCA8", "t": "nova"}, {"c": "V064", "h": "#D8F8C4", "t": "nova"}, {"c": "V092", "h": "#FCECE4", "t": "nova"}, {"c": "X065", "h": "#ACA4A8", "t": "nova"}, {"c": "X066", "h": "#C4ACA8", "t": "nova"}, {"c": "X067", "h": "#FCFCF0", "t": "nova"}, {"c": "X071", "h": "#E8DCC4", "t": "nova"}, {"c": "X076", "h": "#A8DCC4", "t": "nova"}, {"c": "X085", "h": "#D0BC9C", "t": "nova"}, {"c": "X087", "h": "#B8B8A4", "t": "nova"}, {"c": "X088", "h": "#A0A080", "t": "nova"}, {"c": "X090", "h": "#98A0A4", "t": "nova"}, {"c": "X098", "h": "#E0D0AC", "t": "nova"}, {"c": "Y057", "h": "#FCE08C", "t": "nova"}, {"c": "Y059", "h": "#A89060", "t": "nova"}, {"c": "Y071", "h": "#AC9064", "t": "nova"}, {"c": "Y074", "h": "#0C6418", "t": "nova"}, {"c": "Y084", "h": "#C0A888", "t": "nova"}, {"c": "Y085", "h": "#B4885C", "t": "nova"}, {"c": "Y090", "h": "#686868", "t": "nova"}, {"c": "Y095", "h": "#B46834", "t": "nova"}, {"c": "H105", "h": "#D0C8BC", "t": "nova"}, {"c": "N062", "h": "#90B074", "t": "nova"}, {"c": "V101", "h": "#D4C8AC", "t": "nova"}, {"c": "Y135", "h": "#AC7028", "t": "nova"}]
+// ════ ФОТО ЖОЛДАРЫ ════
+// Әр бөлменің әр түске сәйкес фотосы
+const ROOM_MAP = {
+  living: {
+    colors: [
+      {rgb:[136,117,90],  src:'images/living_1.jpg'},
+      {rgb:[162,146,130], src:'images/living_2.jpg'},
+      {rgb:[187,157,127], src:'images/living_3.jpg'},
+      {rgb:[154,137,110], src:'images/living_4.jpg'},
+      {rgb:[198,172,144], src:'images/living_5.jpg'},
+      {rgb:[162,138,111], src:'images/living_6.jpg'},
+      {rgb:[157,137,113], src:'images/living_7.jpg'},
+      {rgb:[92,90,84],    src:'images/living_8.jpg'},
+      {rgb:[168,109,70],  src:'images/living_9.jpg'},
+      {rgb:[134,119,84],  src:'images/living_10.jpg'},
+    ],
+    default: 'images/living_4.jpg'
+  },
+  bedroom: {
+    colors: [
+      {rgb:[95,95,93],    src:'images/bedroom_warm_white.jpg'},
+      {rgb:[120,107,88],  src:'images/bedroom_stone_gray.jpg'},
+      {rgb:[146,134,116], src:'images/bedroom_latte.jpg'},
+      {rgb:[164,145,130], src:'images/bedroom_sage.jpg'},
+      {rgb:[146,108,86],  src:'images/bedroom_teal.jpg'},
+      {rgb:[97,89,84],    src:'images/bedroom_terracotta.jpg'},
+      {rgb:[200,186,173], src:'images/bedroom_beige.jpg'},
+      {rgb:[112,91,76],   src:'images/bedroom_green_dark.jpg'},
+    ],
+    default: 'images/bedroom_warm_white.jpg'
+  },
+  kitchen: {
+    colors: [
+      {rgb:[223,215,203], src:'images/kitchen_warm_white.webp'},
+      {rgb:[195,189,182], src:'images/kitchen_stone_gray.webp'},
+      {rgb:[181,161,138], src:'images/kitchen_latte.webp'},
+      {rgb:[176,174,158], src:'images/kitchen_sage.webp'},
+      {rgb:[182,180,161], src:'images/kitchen_green_light.webp'},
+      {rgb:[111,120,118], src:'images/kitchen_teal.webp'},
+      {rgb:[174,120,94],  src:'images/kitchen_terracotta.webp'},
+      {rgb:[204,193,175], src:'images/kitchen_beige.webp'},
+      {rgb:[137,134,117], src:'images/kitchen_green_dark.webp'},
+    ],
+    default: 'images/kitchen_warm_white.webp'
+  },
+  facade: {
+    colors: [
+      {rgb:[115,91,69],   src:'images/facade_1.jpg'},
+      {rgb:[63,53,44],    src:'images/facade_2.jpg'},
+      {rgb:[93,76,66],    src:'images/facade_3.jpg'},
+      {rgb:[98,67,54],    src:'images/facade_4.jpg'},
+      {rgb:[57,56,60],    src:'images/facade_5.jpg'},
+      {rgb:[146,131,121], src:'images/facade_6.jpg'},
+    ],
+    default: 'images/facade_1.jpg'
+  }
+};
+
+let sel=null, cat='all', curRoom='living';
+
+const AVAILABLE = {
+  kitchen: ["F074", "F075", "F083", "F087", "F098", "F105", "F113", "G055", "H057", "J060", "J068", "J069", "K058", "K091", "L061", "L084", "L093", "M086", "M095", "N059", "N102", "S058", "V064", "X003", "X005", "X006", "X065", "X066", "X071", "X076", "X085", "X087", "X088", "X090", "Y003", "Y059", "Y071", "Y085", "Y090", "Y095"],
+  living: ["F001", "F055", "F105", "F113", "G004", "G105", "G106", "J068", "J069", "K011", "L001", "L062", "M062", "S005", "S113", "X067", "X085", "X098", "Y084", "Y090"],
+  bedroom: ["F001", "F055", "F105", "F113", "J008", "J068", "J069", "K011", "K060", "L001", "L062", "L082", "L084", "M086", "N114", "S005", "S055", "S113", "V092", "X002", "X067", "X085", "Y057", "Y074", "Y085", "Y090"],
+  facade: ["F001", "F055", "F105", "F113", "G004", "G106", "H105", "J068", "J069", "N062", "S005", "S113", "V101", "X067", "X085", "Y084", "Y090", "Y135"],
+};
+
+const FOLDER = {
+  kitchen: 'kitchen',
+  living: 'Living room',
+  bedroom: 'bedroom',
+  facade: 'Facade',
+};
+
+// Файл аттарындағы префикс (kitchenF074.png, bedroomF001.png, living roomF001.png)
+const FILE_PREFIX = {
+  kitchen: 'kitchen',
+  living: 'living room',
+  bedroom: 'bedroom',
+  facade: 'facade',
+};
+
+// Ең жақын фотоны табу
+function nearestPhoto(hex, room) {
+  const r=parseInt(hex.slice(1,3),16),
+        g=parseInt(hex.slice(3,5),16),
+        b=parseInt(hex.slice(5,7),16);
+  const colors = ROOM_MAP[room]?.colors || [];
+  if(!colors.length) return ROOM_MAP[room]?.default || '';
+  let best=colors[0].src, min=Infinity;
+  colors.forEach(({rgb:[cr,cg,cb],src}) => {
+    const d=Math.sqrt((r-cr)**2+(g-cg)**2+(b-cb)**2);
+    if(d<min){min=d;best=src;}
+  });
+  return best;
+}
+
+function showPhoto(src) {
+  if(!src) return;
+  const img = document.getElementById('room-img');
+  img.classList.add('fading');
+  document.getElementById('lb').classList.add('on');
+  const tmp = new Image();
+  tmp.onload = () => {
+    img.src = src;
+    img.classList.remove('fading');
+    document.getElementById('lb').classList.remove('on');
+  };
+  tmp.onerror = () => {
+    img.classList.remove('fading');
+    document.getElementById('lb').classList.remove('on');
+  };
+  tmp.src = src;
+}
+
+function setRoom(room, btn) {
+  curRoom = room;
+  sel = null;
+  document.querySelectorAll('.rt').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  cat = 'all';
+  visibleCount = 200;
+  render();
+  const firstCode = (AVAILABLE[room] || [])[0];
+  if (firstCode) {
+    showPhoto('assets/downlowds/output/' + (FOLDER[room]||room) + '/' + (FILE_PREFIX[room]||room) + firstCode + '.png');
+  }
+  document.getElementById('se').style.display='block';
+  document.getElementById('sd').style.display='none';
+  document.getElementById('badge').style.display='none';
+}
+
+const ROOM_PALETTE = {
+  living: [
+    {c:'ECO-LV01',n:'Қоңыр-жасыл', h:'#88755a',t:'brown'},
+    {c:'ECO-LV02',n:'Ашық беж',    h:'#a29282',t:'beige'},
+    {c:'ECO-LV03',n:'Бежевый',     h:'#bb9d7f',t:'beige'},
+    {c:'ECO-LV04',n:'Қоңыр',       h:'#9a896e',t:'brown'},
+    {c:'ECO-LV05',n:'Ашық қоңыр',  h:'#c6ac90',t:'beige'},
+    {c:'ECO-LV06',n:'Орта қоңыр',  h:'#a28a6f',t:'brown'},
+    {c:'ECO-LV07',n:'Жылы қоңыр',  h:'#9d8971',t:'brown'},
+    {c:'ECO-LV08',n:'Қою сұр',     h:'#5c5a54',t:'gray'},
+    {c:'ECO-LV09',n:'Карамель',    h:'#a86d46',t:'brown'},
+    {c:'ECO-LV10',n:'Зәйтүн',     h:'#867754',t:'brown'},
+  ],
+  bedroom: [
+    {c:'ECO-BD01',n:'Қою сұр',     h:'#5f5f5d',t:'gray'},
+    {c:'ECO-BD02',n:'Қоңыр',       h:'#786b58',t:'brown'},
+    {c:'ECO-BD03',n:'Латте',        h:'#928674',t:'beige'},
+    {c:'ECO-BD04',n:'Sage',         h:'#a49182',t:'green'},
+    {c:'ECO-BD05',n:'Қоңыр-қызыл', h:'#926c56',t:'brown'},
+    {c:'ECO-BD06',n:'Терракота',    h:'#615954',t:'brown'},
+    {c:'ECO-BD07',n:'Бежевый',      h:'#c8baad',t:'beige'},
+    {c:'ECO-BD08',n:'Қою қоңыр',   h:'#705b4c',t:'brown'},
+  ],
+  kitchen: [
+    {c:'ECO-KT01',n:'Ақшыл ақ',    h:'#dfd7cb',t:'white'},
+    {c:'ECO-KT02',n:'Тас сұр',      h:'#c3bdb6',t:'gray'},
+    {c:'ECO-KT03',n:'Латте',        h:'#b5a18a',t:'beige'},
+    {c:'ECO-KT04',n:'Sage',         h:'#b0ae9e',t:'green'},
+    {c:'ECO-KT05',n:'Сұр-беж',      h:'#b6b4a1',t:'beige'},
+    {c:'ECO-KT06',n:'Теңіз',        h:'#6f7876',t:'blue'},
+    {c:'ECO-KT07',n:'Терракота',    h:'#ae785e',t:'brown'},
+    {c:'ECO-KT08',n:'Бежевый',      h:'#ccc1af',t:'beige'},
+    {c:'ECO-KT09',n:'Қою сұр-беж',  h:'#898675',t:'gray'},
+  ],
+  facade: [
+    {c:'ECO-FC01',n:'Жылы қоңыр',  h:'#735b45',t:'brown'},
+    {c:'ECO-FC02',n:'Қою қоңыр',   h:'#3f352c',t:'brown'},
+    {c:'ECO-FC03',n:'Орта қоңыр',  h:'#5d4c42',t:'brown'},
+    {c:'ECO-FC04',n:'Қызыл қоңыр', h:'#624336',t:'brown'},
+    {c:'ECO-FC05',n:'Графит',       h:'#39383c',t:'gray'},
+    {c:'ECO-FC06',n:'Сұр бежевый', h:'#928379',t:'beige'},
+  ],
+};
+
+
+
+
+let visibleCount = 108;
+
+function showMore() {
+  visibleCount += 108;
+  render(true);
+}
+
+function render(keepScroll) {
+  const q = (document.getElementById('sw-search')?.value || '').toUpperCase();
+  const avail = AVAILABLE[curRoom];
+  let list = NOVA_COLORS.filter(x => 
+    (cat === 'all' || x.t === cat) && 
+    (!q || x.c.includes(q)) &&
+    (!avail || avail.includes(x.c))
+  );
+  const total = list.length;
+  const shown = list.slice(0, visibleCount);
+  document.getElementById('grid').innerHTML = shown.map(x=>`
+    <div class="sw ${sel&&sel.c===x.c?'on':''}"
+      style="background:${x.h}"
+      onclick="pick('${x.c}')"
+      title="${x.c}"></div>`).join('');
+  const moreBtn = document.getElementById('grid-more');
+  if(total > visibleCount) {
+    moreBtn.style.display = 'block';
+    moreBtn.querySelector('button').textContent = `Көбірек көрсету ▼ (${total - visibleCount} қалды)`;
+  } else {
+    moreBtn.style.display = 'none';
+  }
+}
+
+function pick(code) {
+  sel = NOVA_COLORS.find(x=>x.c===code);
+  if(!sel) return;
+  showPhoto('assets/downlowds/output/' + (FOLDER[curRoom]||curRoom) + '/' + (FILE_PREFIX[curRoom]||curRoom) + sel.c + '.png');
+  document.getElementById('badge').style.display='flex';
+  document.getElementById('bd').style.background=sel.h;
+  document.getElementById('bn').textContent=sel.c;
+  document.getElementById('bc').textContent=sel.h;
+  document.getElementById('se').style.display='none';
+  document.getElementById('sd').style.display='block';
+  document.getElementById('ssw').style.background=sel.h;
+  document.getElementById('ssw').textContent='';
+  document.getElementById('snm').textContent=sel.c;
+  document.getElementById('scd').textContent=sel.t;
+  document.getElementById('shx').textContent=sel.h;
+  render();
+}
+
+function fc(c,el) {
+  cat=c;
+  visibleCount=108;
+  document.querySelectorAll('.ct').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on'); render();
+}
+
+function order() {
+  if(!sel) return;
+  const m=encodeURIComponent(`Сәлем! NOVA 2024 каталогынан "${sel.c}" (HEX:${sel.h}) түсінде бояу тапсырыс бергім келеді!`);
+  window.open('https://wa.me/77770050757?text='+m,'_blank');
+}
+
+function copy() {
+  if(!sel) return;
+  navigator.clipboard.writeText(sel.h).then(()=>alert(sel.h+' көшірілді!'));
+}
+
+// Бет ашылғанда бірінші қолжетімді бөлме фотосын автоматты көрсету
+(function initFirstPhoto(){
+  const firstCode = (AVAILABLE[curRoom] || [])[0];
+  if (firstCode) {
+    showPhoto('assets/downlowds/output/' + (FOLDER[curRoom]||curRoom) + '/' + (FILE_PREFIX[curRoom]||curRoom) + firstCode + '.png');
+  }
+})();
+
+render();
+</script>
+</body>
+</html>

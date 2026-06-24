@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Түс кеңестері — Ecoline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#dc2626;--dark:#1f2937;--grey:#6b7280;--light:#f9fafb;--border:#e5e7eb;--radius:12px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--dark);background:#fff;line-height:1.6}
+
+/* Header */
+.header{display:flex;align-items:center;padding:16px 40px;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:100}
+.header a{text-decoration:none}
+.back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--dark);font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;transition:.2s}
+.back-btn:hover{background:var(--light)}
+
+/* Hero */
+.hero{position:relative;overflow:hidden}
+.hero img{width:100%;height:auto;display:block}
+
+/* Content */
+.content{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* Section */
+.section{padding:48px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.sec-title{font-size:28px;font-weight:700;color:var(--dark);margin-bottom:12px;line-height:1.3}
+.sec-lead{font-size:16px;color:var(--grey);line-height:1.8;margin-bottom:32px}
+
+/* Full-width image */
+.fw-img{width:100%;border-radius:var(--radius);margin:24px 0;display:block}
+
+/* Color type cards */
+.ct-card{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:32px 0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--light)}
+.ct-card.reverse{direction:rtl}
+.ct-card.reverse>*{direction:ltr}
+.ct-img{width:100%;height:100%;object-fit:cover;min-height:300px}
+.ct-body{padding:32px}
+.ct-icon{font-size:32px;margin-bottom:8px}
+.ct-name{font-size:20px;font-weight:700;margin-bottom:12px}
+.ct-text{font-size:14px;color:var(--grey);line-height:1.8;margin-bottom:16px}
+.ct-list{list-style:none;padding:0;margin-bottom:16px}
+.ct-list li{font-size:13px;color:#4b5563;padding:4px 0;padding-left:16px;position:relative}
+.ct-list li::before{content:'✓';position:absolute;left:0;color:var(--red);font-weight:700}
+.ct-nova{font-size:12px;color:var(--red);font-weight:600;background:#fef2f2;padding:8px 12px;border-radius:8px;display:inline-block}
+
+/* Rule section */
+.rule-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.rule-grid img{width:100%;border-radius:var(--radius);display:block}
+.rule-box{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:var(--radius);padding:24px;margin:24px 0}
+.rule-title{font-size:18px;font-weight:700;margin-bottom:12px}
+.rule-items{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rule-item{text-align:center;padding:16px 8px;background:rgba(255,255,255,.7);border-radius:8px}
+.rule-pct{font-size:28px;font-weight:700;color:var(--dark)}
+.rule-label{font-size:12px;color:var(--grey);margin-top:4px}
+
+/* Harmony section */
+.harm-text{font-size:15px;color:#4b5563;line-height:1.8;margin-bottom:16px}
+
+/* CTA */
+.cta-section{text-align:center;padding:60px 24px;background:var(--light);margin-top:8px}
+.cta-title{font-size:24px;font-weight:700;margin-bottom:12px}
+.cta-sub{font-size:15px;color:var(--grey);margin-bottom:24px;max-width:600px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius);font-size:15px;font-weight:600;text-decoration:none;transition:.2s}
+.cta-primary{background:var(--red);color:#fff}
+.cta-primary:hover{background:#b91c1c}
+.cta-secondary{background:#fff;color:var(--dark);border:1px solid var(--border)}
+.cta-secondary:hover{background:var(--light)}
+
+/* Responsive */
+@media(max-width:768px){
+  .header{padding:12px 16px}
+  .content{padding:0 16px}
+  .sec-title{font-size:22px}
+  .ct-card{grid-template-columns:1fr}
+  .ct-card.reverse{direction:ltr}
+  .ct-img{min-height:200px}
+  .rule-grid{grid-template-columns:1fr}
+  .rule-items{grid-template-columns:1fr}
+  .cta-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <a href="index.html" class="back-btn" id="hd-back">← Түстер каталогы</a>
+  <div style="flex:1"></div>
+  <a href="index.html"><img src="images/ecoline-logo.png" alt="Ecoline" height="48"></a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="images/color-guide/hero-kk.png" alt="Color Guide" id="hero-img" data-img="hero">
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- 1. ҚАЛАЙ ДҰРЫС ТҮС ТАҢДАУ КЕРЕК? -->
+  <div class="section">
+    <h1 class="sec-title" id="s1-title">Қалай дұрыс түс таңдау керек?</h1>
+    <p class="sec-lead" id="s1-lead">Үйді немесе жұмыс кеңістігін безендіру кезінде түс таңдау маңызды рөл атқарады. Дұрыс таңдалған реңктер интерьердің жалпы көрінісін жақсартып қана қоймай, кеңістіктің атмосферасын, жарықтылығын және адамның көңіл-күйін қалыптастырады.</p>
+
+    <!-- Ашық түстер -->
+    <div class="ct-card">
+      <img class="ct-img" src="images/color-guide/light-colors.png" alt="Light colors">
+      <div class="ct-body">
+        <div class="ct-icon">⚪</div>
+        <div class="ct-name" id="c1-name">Ашық түстер</div>
+        <p class="ct-text" id="c1-text">Ақ, крем, ашық беж және нәзік пастель реңктері кеңістікті визуалды түрде үлкейтіп, жарығырақ көрсетеді. Олар табиғи жарықты жақсы шағылыстырады және интерьерге тазалық пен жеңілдік сезімін береді.</p>
+        <ul class="ct-list">
+          <li id="c1-l1">Бөлмені кеңірек көрсетеді</li>
+          <li id="c1-l2">Табиғи жарықты арттырады</li>
+          <li id="c1-l3">Кез келген жиһазбен үйлеседі</li>
+          <li id="c1-l4">Скандинавиялық стильге қолайлы</li>
+        </ul>
+        <div class="ct-nova">NOVA: X067, X003, X085, F087</div>
+      </div>
+    </div>
+
+    <!-- Нейтрал түстер -->
+    <div class="ct-card reverse">
+      <img class="ct-img" src="images/color-guide/neutral-colors.png" alt="Neutral colors">
+      <div class="ct-body">
+        <div class="ct-icon">⚫</div>
+        <div class="ct-name" id="c2-name">Нейтрал түстер</div>
+        <p class="ct-text" id="c2-text">Сұр, сұр-жасыл, құм түсті және жұмсақ жер реңктері интерьерге тепе-теңдік пен үйлесімділік береді. Олар ұзақ уақыт сәннен шықпайды.</p>
+        <ul class="ct-list">
+          <li id="c2-l1">Көзді шаршатпайды</li>
+          <li id="c2-l2">Интерьерге талғампаздық береді</li>
+          <li id="c2-l3">Түрлі стильдермен үйлеседі</li>
+          <li id="c2-l4">Акцент түстер үшін мінсіз негіз</li>
+        </ul>
+        <div class="ct-nova">NOVA: F083, F098, F074, F075, N102</div>
+      </div>
+    </div>
+
+    <!-- Акцент түстер -->
+    <div class="ct-card">
+      <img class="ct-img" src="images/color-guide/accent-colors.png" alt="Accent colors">
+      <div class="ct-body">
+        <div class="ct-icon">🎨</div>
+        <div class="ct-name" id="c3-name">Акцент түстер</div>
+        <p class="ct-text" id="c3-text">Акцент түстер интерьерге мінез бен ерекшелік береді. Олар әдетте бір қабырғада немесе белгілі бір аймақты ерекшелеу үшін қолданылады.</p>
+        <ul class="ct-list">
+          <li id="c3-l1">Кеңістікке даралық береді</li>
+          <li id="c3-l2">Белгілі бір аймаққа назар аударады</li>
+          <li id="c3-l3">Интерьерді жандандырады</li>
+          <li id="c3-l4">Заманауи дизайнда ерекше әсер қалдырады</li>
+        </ul>
+        <div class="ct-nova">NOVA: J060, S005, X006, Y003, M072, L084</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. ТҮСТЕР ҮЙЛЕСІМІ -->
+  <div class="section">
+    <h2 class="sec-title" id="s2-title">🎨 Түстер үйлесімі</h2>
+    <p class="harm-text" id="s2-text1">Үйлесімді түстер интерьердің сұлулығын арттырып қана қоймай, кеңістіктің көңіл-күйі мен атмосферасын қалыптастырады. Дұрыс таңдалған палитра бөлменің барлық элементтерін бір-бірімен байланыстырып, тұтас әрі сәнді көрініс береді.</p>
+    <img class="fw-img" src="images/color-guide/palettes-kk.png" alt="Color palettes" data-img="palettes">
+    <p class="harm-text" id="s2-text2">NOVA 2024 коллекциясында әртүрлі стильдерге арналған дайын палитралар жинақталған. Скандинавиялық минимализмнен бастап заманауи классикаға дейінгі түстік шешімдерді зерттеп, өз үйіңізге сәйкес келетін үйлесімді таңдаңыз.</p>
+    <img class="fw-img" src="images/color-guide/room-palette-kk.png" alt="Room palette example" data-img="room-palette">
+  </div>
+
+  <!-- 3. 60-30-10 ҚАҒИДАСЫ -->
+  <div class="section">
+    <h2 class="sec-title" id="s3-title">💡 60–30–10 қағидасы</h2>
+    <p class="sec-lead" id="s3-lead">Ең үйлесімді интерьер жасау үшін кәсіби дизайнерлер 60–30–10 қағидасын ұсынады:</p>
+
+    <div class="rule-box">
+      <div class="rule-items">
+        <div class="rule-item">
+          <div class="rule-pct">60%</div>
+          <div class="rule-label" id="r1">Негізгі түс<br><small>Қабырғалар</small></div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-pct">30%</div>
+          <div class="rule-label" id="r2">Қосымша түс<br><small>Жиһаз, перде</small></div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-pct">10%</div>
+          <div class="rule-label" id="r3">Акцент түс<br><small>Декор, аксессуар</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rule-grid">
+      <img src="images/color-guide/rule-charcoal-kk.png" data-img="rule-charcoal" alt="60-30-10 Charcoal">
+      <img src="images/color-guide/rule-beige-kk.png" data-img="rule-beige" alt="60-30-10 Beige">
+    </div>
+
+    <p class="harm-text" id="s3-tip">Visualizer құралын пайдаланып, таңдалған түстердің нақты кеңістікте қалай көрінетінін алдын ала қарап, өз үйіңіз үшін ең сәтті үйлесімді таба аласыз.</p>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-title" id="cta-title">Өз түсіңізді таңдаңыз</div>
+  <p class="cta-sub" id="cta-sub">NOVA 2024 каталогында 2020 түс бар. Каталогтан іздеп, Visualizer арқылы қабырғаңызда сынап көріңіз.</p>
+  <div class="cta-btns">
+    <a class="cta-btn cta-primary" href="index.html#colors" id="cta-btn1">🎨 Түстер каталогы</a>
+    <a class="cta-btn cta-secondary" href="visualizer.html" target="_blank" id="cta-btn2">🖼️ Visualizer ашу</a>
+  </div>
+</div>
+
+<script>
+const TR = {
+  kk: {
+    back:'← Түстер каталогы', pageTitle:'Түс кеңестері — Ecoline',
+    s1_title:'Қалай дұрыс түс таңдау керек?',
+    s1_lead:'Үйді немесе жұмыс кеңістігін безендіру кезінде түс таңдау маңызды рөл атқарады. Дұрыс таңдалған реңктер интерьердің жалпы көрінісін жақсартып қана қоймай, кеңістіктің атмосферасын, жарықтылығын және адамның көңіл-күйін қалыптастырады.',
+    c1_name:'Ашық түстер', c1_text:'Ақ, крем, ашық беж және нәзік пастель реңктері кеңістікті визуалды түрде үлкейтіп, жарығырақ көрсетеді. Олар табиғи жарықты жақсы шағылыстырады және интерьерге тазалық пен жеңілдік сезімін береді.',
+    c1_l1:'Бөлмені кеңірек көрсетеді', c1_l2:'Табиғи жарықты арттырады', c1_l3:'Кез келген жиһазбен үйлеседі', c1_l4:'Скандинавиялық стильге қолайлы',
+    c2_name:'Нейтрал түстер', c2_text:'Сұр, сұр-жасыл, құм түсті және жұмсақ жер реңктері интерьерге тепе-теңдік пен үйлесімділік береді. Олар ұзақ уақыт сәннен шықпайды.',
+    c2_l1:'Көзді шаршатпайды', c2_l2:'Интерьерге талғампаздық береді', c2_l3:'Түрлі стильдермен үйлеседі', c2_l4:'Акцент түстер үшін мінсіз негіз',
+    c3_name:'Акцент түстер', c3_text:'Акцент түстер интерьерге мінез бен ерекшелік береді. Олар әдетте бір қабырғада немесе белгілі бір аймақты ерекшелеу үшін қолданылады.',
+    c3_l1:'Кеңістікке даралық береді', c3_l2:'Белгілі бір аймаққа назар аударады', c3_l3:'Интерьерді жандандырады', c3_l4:'Заманауи дизайнда ерекше әсер қалдырады',
+    s2_title:'🎨 Түстер үйлесімі',
+    s2_text1:'Үйлесімді түстер интерьердің сұлулығын арттырып қана қоймай, кеңістіктің көңіл-күйі мен атмосферасын қалыптастырады. Дұрыс таңдалған палитра бөлменің барлық элементтерін бір-бірімен байланыстырып, тұтас әрі сәнді көрініс береді.',
+    s2_text2:'NOVA 2024 коллекциясында әртүрлі стильдерге арналған дайын палитралар жинақталған. Скандинавиялық минимализмнен бастап заманауи классикаға дейінгі түстік шешімдерді зерттеп, өз үйіңізге сәйкес келетін үйлесімді таңдаңыз.',
+    s3_title:'💡 60–30–10 қағидасы',
+    s3_lead:'Ең үйлесімді интерьер жасау үшін кәсіби дизайнерлер 60–30–10 қағидасын ұсынады:',
+    r1:'Негізгі түс<br><small>Қабырғалар</small>', r2:'Қосымша түс<br><small>Жиһаз, перде</small>', r3:'Акцент түс<br><small>Декор, аксессуар</small>',
+    s3_tip:'Visualizer құралын пайдаланып, таңдалған түстердің нақты кеңістікте қалай көрінетінін алдын ала қарап, өз үйіңіз үшін ең сәтті үйлесімді таба аласыз.',
+    cta_title:'Өз түсіңізді таңдаңыз', cta_sub:'NOVA 2024 каталогында 2020 түс бар. Каталогтан іздеп, Visualizer арқылы қабырғаңызда сынап көріңіз.',
+    cta_btn1:'🎨 Түстер каталогы', cta_btn2:'🖼️ Visualizer ашу'
+  },
+  ru: {
+    back:'← Каталог цветов', pageTitle:'Советы по цвету — Ecoline',
+    s1_title:'Как правильно выбрать цвет?',
+    s1_lead:'При оформлении дома или рабочего пространства выбор цвета играет важную роль. Правильные оттенки не только улучшат общий вид интерьера, но и сформируют атмосферу, освещённость и настроение пространства.',
+    c1_name:'Светлые тона', c1_text:'Белый, кремовый, светло-бежевый и пастельные оттенки визуально увеличивают пространство и делают его светлее. Они хорошо отражают естественный свет и придают интерьеру ощущение чистоты и лёгкости.',
+    c1_l1:'Визуально увеличивают комнату', c1_l2:'Усиливают естественное освещение', c1_l3:'Сочетаются с любой мебелью', c1_l4:'Идеальны для скандинавского стиля',
+    c2_name:'Нейтральные тона', c2_text:'Серый, серо-зелёный, песочный и мягкие земляные оттенки привносят баланс и гармонию. Они долго остаются актуальными.',
+    c2_l1:'Не утомляют глаза', c2_l2:'Придают изысканность', c2_l3:'Сочетаются с разными стилями', c2_l4:'Идеальная основа для акцентов',
+    c3_name:'Акцентные цвета', c3_text:'Акцентные цвета придают интерьеру характер и индивидуальность. Обычно их используют на одной стене или для выделения определённой зоны.',
+    c3_l1:'Придают пространству индивидуальность', c3_l2:'Привлекают внимание к зоне', c3_l3:'Оживляют интерьер', c3_l4:'Создают яркий эффект в дизайне',
+    s2_title:'🎨 Гармония цветов',
+    s2_text1:'Гармоничные цвета не только улучшают красоту интерьера, но и формируют настроение и атмосферу пространства. Правильно подобранная палитра связывает все элементы комнаты и создаёт целостный стильный вид.',
+    s2_text2:'В коллекции NOVA 2024 собраны готовые палитры для разных стилей. Исследуйте цветовые решения от скандинавского минимализма до современной классики и выберите подходящую гармонию для своего дома.',
+    s3_title:'💡 Правило 60–30–10',
+    s3_lead:'Для создания самого гармоничного интерьера профессиональные дизайнеры рекомендуют правило 60–30–10:',
+    r1:'Основной цвет<br><small>Стены</small>', r2:'Дополнительный<br><small>Мебель, шторы</small>', r3:'Акцент<br><small>Декор, аксессуары</small>',
+    s3_tip:'Используйте Visualizer, чтобы оценить, как выбранные цвета выглядят в реальном пространстве, и найти лучшую комбинацию для вашего дома.',
+    cta_title:'Выберите свой цвет', cta_sub:'В каталоге NOVA 2024 — 2020 цветов. Найдите нужный и проверьте с помощью Visualizer.',
+    cta_btn1:'🎨 Каталог цветов', cta_btn2:'🖼️ Открыть Visualizer'
+  },
+  en: {
+    back:'← Color Catalog', pageTitle:'Color Tips — Ecoline',
+    s1_title:'How to choose the right color?',
+    s1_lead:'When decorating a home or workspace, color choice plays a crucial role. The right shades not only improve the overall look of the interior but also shape the atmosphere, brightness and mood of the space.',
+    c1_name:'Light Colors', c1_text:'White, cream, light beige and soft pastels visually enlarge spaces and make them brighter. They reflect natural light well and bring a sense of cleanliness and lightness to the interior.',
+    c1_l1:'Make rooms appear larger', c1_l2:'Enhance natural light', c1_l3:'Pair with any furniture', c1_l4:'Perfect for Scandinavian style',
+    c2_name:'Neutral Colors', c2_text:'Grey, grey-green, sandy and soft earthy tones bring balance and harmony to interiors. They remain timeless and elegant for years.',
+    c2_l1:'Easy on the eyes', c2_l2:'Add sophistication', c2_l3:'Work with various styles', c2_l4:'Perfect base for accent colors',
+    c3_name:'Accent Colors', c3_text:'Accent colors give interiors character and uniqueness. They are typically used on one wall or to highlight a specific area.',
+    c3_l1:'Add individuality to spaces', c3_l2:'Draw attention to specific areas', c3_l3:'Bring interiors to life', c3_l4:'Create striking effects in design',
+    s2_title:'🎨 Color Harmony',
+    s2_text1:'Harmonious colors not only enhance interior beauty but also shape the mood and atmosphere of a space. A well-chosen palette ties all room elements together, creating a cohesive and stylish look.',
+    s2_text2:'The NOVA 2024 collection features ready-made palettes for different styles. Explore color solutions from Scandinavian minimalism to modern classics and find the perfect harmony for your home.',
+    s3_title:'💡 The 60–30–10 Rule',
+    s3_lead:'To create the most harmonious interior, professional designers recommend the 60–30–10 rule:',
+    r1:'Main Color<br><small>Walls</small>', r2:'Secondary Color<br><small>Furniture, curtains</small>', r3:'Accent Color<br><small>Decor, accessories</small>',
+    s3_tip:'Use the Visualizer to preview how chosen colors look in real spaces and find the best combination for your home.',
+    cta_title:'Choose Your Color', cta_sub:'The NOVA 2024 catalog has 2020 colors. Search the catalog and preview on your walls with Visualizer.',
+    cta_btn1:'🎨 Color Catalog', cta_btn2:'🖼️ Open Visualizer'
+  }
+};
+
+let curLang='kk';
+function setGuideLang(lang){
+  curLang=lang;
+  const T=TR[lang]||TR.kk;
+  document.title=T.pageTitle;
+  const s=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  const h=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v;};
+  s('hd-back',T.back);
+  s('s1-title',T.s1_title); s('s1-lead',T.s1_lead);
+  s('c1-name',T.c1_name); s('c1-text',T.c1_text);
+  s('c1-l1',T.c1_l1); s('c1-l2',T.c1_l2); s('c1-l3',T.c1_l3); s('c1-l4',T.c1_l4);
+  s('c2-name',T.c2_name); s('c2-text',T.c2_text);
+  s('c2-l1',T.c2_l1); s('c2-l2',T.c2_l2); s('c2-l3',T.c2_l3); s('c2-l4',T.c2_l4);
+  s('c3-name',T.c3_name); s('c3-text',T.c3_text);
+  s('c3-l1',T.c3_l1); s('c3-l2',T.c3_l2); s('c3-l3',T.c3_l3); s('c3-l4',T.c3_l4);
+  s('s2-title',T.s2_title); s('s2-text1',T.s2_text1); s('s2-text2',T.s2_text2);
+  s('s3-title',T.s3_title); s('s3-lead',T.s3_lead);
+  h('r1',T.r1); h('r2',T.r2); h('r3',T.r3);
+  s('s3-tip',T.s3_tip);
+  s('cta-title',T.cta_title); s('cta-sub',T.cta_sub);
+  s('cta-btn1',T.cta_btn1); s('cta-btn2',T.cta_btn2);
+  // Swap images by language
+  document.querySelectorAll('[data-img]').forEach(function(img){
+    var base=img.getAttribute('data-img');
+    img.src='images/color-guide/'+base+'-'+lang+'.png';
+  });
+}
+
+// URL-ден тіл алу: color-guide.html?lang=ru
+const urlLang=new URLSearchParams(window.location.search).get('lang');
+setGuideLang(urlLang && TR[urlLang] ? urlLang : 'kk');
+
+// Parent-тен postMessage тыңдау
+window.addEventListener('message',function(e){
+  if(e.data&&e.data.lang) setGuideLang(e.data.lang);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Өнім | Ecoline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#222;background:#fff}
+a{text-decoration:none;color:inherit;cursor:pointer}
+.container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+
+.top-bar{background:#1a1a1a;color:#fff;padding:.4rem 0;font-size:.8rem}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center}
+.top-contact a{color:#ddd}
+
+.header{background:#fff;border-bottom:1px solid #e8e8e8;padding:.8rem 0;position:sticky;top:0;z-index:100}
+.header .container{display:flex;align-items:center;gap:2rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.3rem;cursor:pointer;letter-spacing:1px}
+.logo-icon{background:#c00;color:#fff;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900}
+.nav{display:flex;gap:0;margin-left:1rem;flex:1}
+.nav-link{padding:.5rem 1rem;font-size:.9rem;color:#555;border-bottom:2px solid transparent;transition:.2s;font-weight:500}
+.nav-link:hover,.nav-link.active{color:#c00;border-bottom-color:#c00}
+.btn-store{background:#c00;color:#fff;padding:.5rem 1.2rem;border-radius:6px;font-size:.85rem;font-weight:600;margin-left:auto;white-space:nowrap}
+
+.breadcrumb{padding:1rem 0;font-size:.85rem;color:#888;border-bottom:1px solid #f0f0f0}
+.breadcrumb a{color:#c00;cursor:pointer}
+.breadcrumb a:hover{text-decoration:underline}
+
+/* PRODUCT SECTION */
+.product-section{padding:3rem 0;background:#fafafa}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+
+/* LEFT - IMAGE */
+.product-image-wrap{background:#fff;border-radius:16px;padding:2rem;border:1px solid #e8e8e8;position:relative}
+.product-image-wrap img{width:100%;max-height:420px;object-fit:contain}
+.product-image-ph{width:100%;height:420px;display:flex;align-items:center;justify-content:center;font-size:5rem;color:#ddd}
+.badges{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.badge{background:#f0f0f0;color:#555;font-size:.7rem;font-weight:700;padding:.3rem .7rem;border-radius:20px;letter-spacing:.5px}
+.badge.kz{background:#e8f5e9;color:#2e7d32}
+.badge.eco{background:#e3f2fd;color:#1565c0}
+.badge.iso{background:#fff3e0;color:#e65100}
+.badge.it{background:#fce4ec;color:#c62828}
+
+/* RIGHT - INFO */
+.product-info{}
+.product-cat{font-size:.75rem;font-weight:700;color:#c00;text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+.product-name{font-size:2rem;font-weight:800;line-height:1.2;margin-bottom:1rem}
+.product-desc{font-size:.95rem;color:#555;line-height:1.7;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid #e8e8e8}
+
+/* PICTOS */
+.pictos{display:flex;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid #e8e8e8;flex-wrap:wrap}
+.picto{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.3rem;min-width:70px}
+.picto-icon{font-size:1.8rem}
+.picto-val{font-size:.85rem;font-weight:700;color:#222}
+.picto-label{font-size:.7rem;color:#888}
+
+/* PACKAGE SELECTOR */
+.package-section{margin-bottom:1.5rem}
+.package-label{font-size:.8rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:.6rem}
+.package-btns{display:flex;gap:.5rem;flex-wrap:wrap}
+.pkg-btn{padding:.5rem 1rem;border:2px solid #e8e8e8;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff;transition:.2s;color:#555}
+.pkg-btn:hover{border-color:#c00;color:#c00}
+.pkg-btn.active{border-color:#c00;background:#fff0f0;color:#c00}
+
+/* PRICE */
+.price-section{margin-bottom:1.5rem}
+.price{font-size:2rem;font-weight:800;color:#c00}
+.price-note{font-size:.8rem;color:#888;margin-top:.2rem}
+.stock{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;font-weight:600;color:#2e7d32;background:#e8f5e9;padding:.3rem .8rem;border-radius:20px;margin-top:.5rem}
+.stock.out{color:#c00;background:#fff0f0}
+
+/* BUTTONS */
+.action-btns{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.btn-calc{flex:1;background:#f5f5f5;border:none;padding:.9rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s;min-width:150px}
+.btn-calc:hover{background:#e8e8e8}
+.btn-order{flex:1;background:#c00;color:#fff;border:none;padding:.9rem 1.5rem;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s;min-width:150px}
+.btn-order:hover{background:#a00}
+
+/* ACCORDION */
+.accordion{border:1px solid #e8e8e8;border-radius:12px;overflow:hidden;margin-bottom:3rem}
+.acc-item{border-bottom:1px solid #e8e8e8}
+.acc-item:last-child{border-bottom:none}
+.acc-header{padding:1.2rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.95rem;transition:.2s;background:#fff}
+.acc-header:hover{background:#f9f9f9}
+.acc-header.open{background:#fff0f0;color:#c00}
+.acc-arrow{font-size:1rem;transition:.3s}
+.acc-header.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{display:none;padding:1.5rem;background:#fafafa;font-size:.9rem;line-height:1.7;color:#444}
+.acc-body.open{display:block}
+
+.tech-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.tech-table tr{border-bottom:1px solid #e8e8e8}
+.tech-table tr:last-child{border-bottom:none}
+.tech-table td{padding:.7rem .5rem}
+.tech-table td:first-child{font-weight:600;color:#555;width:40%}
+
+.steps-list{list-style:none;counter-reset:step}
+.steps-list li{counter-increment:step;display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start}
+.steps-list li::before{content:counter(step);background:#c00;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;margin-top:.1rem}
+.step-text strong{display:block;font-weight:600;margin-bottom:.2rem}
+.step-text span{color:#888;font-size:.85rem}
+
+/* WHY SECTION */
+.why-section{background:#1a1a1a;color:#fff;padding:3rem 0}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2rem}
+.why-card{background:#2a2a2a;border-radius:12px;padding:1.5rem;text-align:center}
+.why-icon{font-size:2rem;margin-bottom:.8rem}
+.why-title{font-weight:700;margin-bottom:.5rem}
+.why-desc{font-size:.85rem;color:#aaa;line-height:1.6}
+
+.footer{background:#1a1a1a;color:#fff;padding:2rem 0;margin-top:0}
+.footer-inner{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.f-logo{font-size:1.3rem;font-weight:800;letter-spacing:1px}
+.f-links{display:flex;gap:1.5rem;flex:1;flex-wrap:wrap}
+.f-links a{color:#aaa;font-size:.85rem;cursor:pointer}
+.f-links a:hover{color:#fff}
+.f-copy{color:#666;font-size:.8rem;margin-left:auto}
+
+.wa-float{position:fixed;bottom:1.5rem;right:1.5rem;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+
+@media(max-width:768px){
+  .product-grid{grid-template-columns:1fr}
+  .product-name{font-size:1.5rem}
+  .why-grid{grid-template-columns:1fr}
+  .pictos{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="container">
+    <div style="color:#aaa;font-size:.8rem">Шымкент өндірісі 🏭</div>
+    <div class="top-contact"><a href="tel:+77770050757">+7 777 005 07 57</a></div>
+  </div>
+</div>
+
+<header class="header">
+  <div class="container">
+    <a class="logo" href="index.html">
+      
+    <a href="index.html" style="display:flex;align-items:center;flex-shrink:0;margin-left:0;margin-right:32px"><img src="images/ecoline-logo.png" alt="Ecoline" height="120" style="display:block"></a>
+    <nav class="nav">
+      <a href="index.html" class="nav-link">Басты бет</a>
+      <a href="index.html#products" class="nav-link active">Өнімдер</a>
+      <a href="visualizer.html" class="nav-link">Түстер</a>
+      <a href="index.html#contact" class="nav-link">Байланыс</a>
+    </nav>
+    <a href="https://wa.me/77770050757" target="_blank" class="btn-store">🏪 Дүкен табу</a>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <div class="container">
+    <a href="index.html">Басты бет</a> › 
+    <a href="index.html" onclick="sessionStorage.setItem('page','products')">Өнімдер</a> › 
+    <span id="bc-name">Өнім</span>
+  </div>
+</div>
+
+<section class="product-section">
+  <div class="container">
+    <div class="product-grid">
+      <!-- LEFT -->
+      <div>
+        <div class="product-image-wrap">
+          <img id="prod-img" src="" alt="" onerror="this.style.display='none';document.getElementById('prod-img-ph').style.display='flex'">
+          <div class="product-image-ph" id="prod-img-ph" style="display:none"></div>
+        </div>
+        <div class="badges" id="prod-badges"></div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="product-info">
+        <div class="product-cat" id="prod-cat"></div>
+        <div class="product-name" id="prod-name"></div>
+        <div class="product-desc" id="prod-desc"></div>
+
+        <div class="pictos" id="prod-pictos"></div>
+
+        <div class="package-section">
+          <div class="package-label">Фасовка таңдаңыз</div>
+          <div class="package-btns" id="prod-packages"></div>
+        </div>
+
+        <div class="price-section">
+          <div class="price" id="prod-price"></div>
+          <div class="price-note">КДС қосылған</div>
+          <div class="stock" id="prod-stock"></div>
+        </div>
+
+        <div class="action-btns">
+          <button class="btn-calc" onclick="calcAmount()">📐 Мөлшерді есептеу</button>
+          <button class="btn-order" onclick="orderWA()">💬 WhatsApp тапсырыс</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCORDION — Tikkurila стилі -->
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span>📄 Сертификаттар</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body" id="acc-certs"></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span>ℹ️ Өнім туралы ақпарат</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open" id="acc-about"></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header open" onclick="toggleAcc(this)">
+          <span>📊 Техникалық деректер</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body open" id="acc-tech"></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span>🔧 Қолдану нұсқаулығы</span>
+          <span class="acc-arrow">▼</span>
+        </div>
+        <div class="acc-body" id="acc-steps"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ECOLINE -->
+<section class="why-section">
+  <div class="container">
+    <h2 style="text-align:center;font-size:1.6rem">Неліктен <span style="color:#c00">Ecoline</span>?</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🏭</div>
+        <div class="why-title">Өз өндіріс</div>
+        <div class="why-desc">Шымкентте жасалған. Зауыттан тікелей — делдалсыз, арзан баға.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">✅</div>
+        <div class="why-title">Сертификатталған</div>
+        <div class="why-desc">Барлық өнімдер ҚР стандарттарына сәйкес сертификатталған.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🚚</div>
+        <div class="why-title">Жылдам жеткізу</div>
+        <div class="why-desc">CDEK және inDrive арқылы ҚР бойынша жеткіземіз.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    
+    <div class="f-links">
+      <a href="index.html">Басты бет</a>
+      <a href="index.html">Өнімдер</a>
+      <a href="https://instagram.com/ecoline_kz" target="_blank">Instagram</a>
+      <a href="https://wa.me/77770050757" target="_blank">WhatsApp</a>
+    </div>
+    <div class="f-copy">© 2026 Ecoline — Шымкент</div>
+  </div>
+</footer>
+
+<a href="https://wa.me/77770050757" class="wa-float" target="_blank">💬</a>
+
+<script>
+// Өнім деректері sessionStorage-дан алынады
+const BADGE_LABELS = {KZ:'🇰🇿 Сделано в КЗ', ECO:'🌿 ECO', ISO:'✅ ISO 9001', IT:'🇮🇹 Italiano Design'};
+
+let currentProduct = null;
+let selectedPkg = null;
+const basePrices = {3:1, 5:1.8, 7:2.4, 10:3.2, 12:3.8, 14:4.5, 15:4.8, 20:6, 25:7.5};
+
+function loadProduct() {
+  const data = sessionStorage.getItem('currentProduct');
+  if (!data) { window.location='index.html'; return; }
+  currentProduct = JSON.parse(data);
+  renderProduct();
+}
+
+function renderProduct() {
+  const p = currentProduct;
+  document.title = p.n + ' | Ecoline';
+  document.getElementById('bc-name').textContent = p.n;
+  document.getElementById('prod-cat').textContent = p.cat;
+  document.getElementById('prod-name').textContent = p.n;
+  document.getElementById('prod-desc').textContent = p.desc;
+
+  // Фото
+  const img = document.getElementById('prod-img');
+  if (p.img) { img.src = p.img; img.alt = p.n; img.style.display='block'; }
+  else { img.style.display='none'; document.getElementById('prod-img-ph').style.display='flex'; }
+
+  // Badges
+  const badgesEl = document.getElementById('prod-badges');
+  badgesEl.innerHTML = (p.badges||[]).map(b =>
+    `<span class="badge ${b.toLowerCase()}">${BADGE_LABELS[b]||b}</span>`
+  ).join('');
+
+  // Pictos
+  const pictosEl = document.getElementById('prod-pictos');
+  pictosEl.innerHTML = (p.pictos||[]).map(pc =>
+    `<div class="picto"><div class="picto-icon">${pc.i}</div><div class="picto-val">${pc.v}</div><div class="picto-label">${pc.l}</div></div>`
+  ).join('');
+
+  // Packages
+  const pkgsEl = document.getElementById('prod-packages');
+  pkgsEl.innerHTML = (p.fas||[]).map((f,i) =>
+    `<button class="pkg-btn ${i===0?'active':''}" onclick="selectPkg(this,'${f}')">${f} кг</button>`
+  ).join('');
+  selectedPkg = p.fas ? p.fas[0] : null;
+
+  // Price
+  updatePrice();
+
+  // Stock
+  const stockEl = document.getElementById('prod-stock');
+  if (p.qty > 0) {
+    stockEl.textContent = `✓ Қоймада бар — ${p.qty} дана`;
+    stockEl.className = 'stock';
+  } else {
+    stockEl.textContent = '✗ Қоймада жоқ';
+    stockEl.className = 'stock out';
+  }
+
+  // ── TIKKURILA СТИЛІНДЕ ACCORDION ──────────────────────────────
+
+  // 1. СЕРТИФИКАТТАР
+  document.getElementById('acc-certs').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:.6rem">
+      <a href="#" style="display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;border:1px solid #e8e8e8;border-radius:8px;color:#222;transition:.2s" onmouseover="this.style.borderColor='#c8102e'" onmouseout="this.style.borderColor='#e8e8e8'">
+        <div style="width:36px;height:36px;background:#fef2f2;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#c8102e;font-size:1.1rem;flex-shrink:0">📄</div>
+        <div><div style="font-size:.9rem;font-weight:600">Техникалық сипаттама</div><div style="font-size:.75rem;color:#888">(PDF)</div></div>
+      </a>
+      <a href="#" style="display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;border:1px solid #e8e8e8;border-radius:8px;color:#222;transition:.2s" onmouseover="this.style.borderColor='#c8102e'" onmouseout="this.style.borderColor='#e8e8e8'">
+        <div style="width:36px;height:36px;background:#fef2f2;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#c8102e;font-size:1.1rem;flex-shrink:0">📄</div>
+        <div><div style="font-size:.9rem;font-weight:600">Қауіпсіздік паспорты</div><div style="font-size:.75rem;color:#888">(PDF)</div></div>
+      </a>
+      <a href="#" style="display:flex;align-items:center;gap:1rem;padding:.9rem 1rem;border:1px solid #e8e8e8;border-radius:8px;color:#222;transition:.2s" onmouseover="this.style.borderColor='#c8102e'" onmouseout="this.style.borderColor='#e8e8e8'">
+        <div style="width:36px;height:36px;background:#fef2f2;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#c8102e;font-size:1.1rem;flex-shrink:0">📄</div>
+        <div><div style="font-size:.9rem;font-weight:600">Сәйкестік сертификаты</div><div style="font-size:.75rem;color:#888">(PDF)</div></div>
+      </a>
+    </div>`;
+
+  // 2. ӨНІМ ТУРАЛЫ АҚПАРАТ
+  const usp = p.usp || [];
+  document.getElementById('acc-about').innerHTML = `
+    <div style="margin-bottom:1.2rem">
+      <b style="font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.5rem">Сипаттама</b>
+      <p style="color:#444;line-height:1.75;font-size:.95rem">${p.desc}</p>
+    </div>
+    ${usp.length ? `
+    <div style="margin-bottom:1.2rem">
+      <b style="font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.5rem">Артықшылықтары</b>
+      <ul style="list-style:none;margin:0;padding:0">
+        ${usp.map(u => `<li style="display:flex;align-items:flex-start;gap:.6rem;padding:.45rem 0;border-bottom:1px solid #f0f0f0;font-size:.9rem;color:#333">
+          <span style="color:#c8102e;font-weight:700;flex-shrink:0;margin-top:.1rem">✓</span>${u}
+        </li>`).join('')}
+      </ul>
+    </div>` : ''}
+    <div>
+      <b style="font-size:.8rem;color:#888;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.5rem">Қолдану аймағы</b>
+      <p style="color:#444;line-height:1.75;font-size:.9rem">Тұрғын үй, коммерциялық және өндірістік нысандардағы бетон, кірпіш, гипскартон және сылақталған беттер үшін.</p>
+    </div>`;
+
+  // 3. ТЕХНИКАЛЫҚ ДЕРЕКТЕР
+  const tech = p.tech || {};
+  document.getElementById('acc-tech').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:.9rem">
+      ${tech.coverage ? `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:.75rem .5rem;font-weight:600;color:#222;width:45%">Шығын</td><td style="padding:.75rem .5rem;color:#555">${tech.coverage}</td></tr>` : ''}
+      ${tech.drying ? `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:.75rem .5rem;font-weight:600;color:#222">Кебу уақыты</td><td style="padding:.75rem .5rem;color:#555">${tech.drying}</td></tr>` : ''}
+      ${tech.temp ? `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:.75rem .5rem;font-weight:600;color:#222">Жұмыс температурасы</td><td style="padding:.75rem .5rem;color:#555">${tech.temp}</td></tr>` : ''}
+      ${tech.method ? `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:.75rem .5rem;font-weight:600;color:#222">Жағу тәсілі</td><td style="padding:.75rem .5rem;color:#555">${tech.method}</td></tr>` : ''}
+      ${tech.dilute ? `<tr style="border-bottom:1px solid #f0f0f0"><td style="padding:.75rem .5rem;font-weight:600;color:#222">Сұйылту</td><td style="padding:.75rem .5rem;color:#555">${tech.dilute}</td></tr>` : ''}
+      ${tech.storage ? `<tr><td style="padding:.75rem .5rem;font-weight:600;color:#222">Сақтау</td><td style="padding:.75rem .5rem;color:#555">${tech.storage}</td></tr>` : ''}
+    </table>`;
+
+  // 4. ҚОЛДАНУ НҰСҚАУЛЫҒЫ
+  const steps = p.steps || [];
+  document.getElementById('acc-steps').innerHTML = `
+    <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.8rem">
+      ${steps.map((s,i) => `
+      <li style="display:flex;align-items:flex-start;gap:1rem">
+        <span style="background:#c8102e;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:.1rem">${i+1}</span>
+        <div>
+          <div style="font-weight:600;color:#222;font-size:.9rem">${s[0]}</div>
+          ${s[1] ? `<div style="color:#777;font-size:.82rem;margin-top:.2rem">${s[1]}</div>` : ''}
+        </div>
+      </li>`).join('')}
+    </ol>`;
+}
+
+function selectPkg(el, pkg) {
+  document.querySelectorAll('.pkg-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedPkg = pkg;
+  updatePrice();
+}
+
+function updatePrice() {
+  if (!currentProduct) return;
+  const base = currentProduct.price;
+  const mult = selectedPkg ? (basePrices[selectedPkg]||1) : 1;
+  const price = Math.round(base * mult / 100) * 100;
+  document.getElementById('prod-price').textContent = price.toLocaleString() + ' ₸';
+}
+
+function orderWA() {
+  const name = currentProduct ? currentProduct.n : '';
+  const pkg = selectedPkg ? selectedPkg + ' кг' : '';
+  const msg = encodeURIComponent(`Сәлем! "${name}" (${pkg}) тапсырыс бергім келеді.`);
+  window.open('https://wa.me/77770050757?text=' + msg, '_blank');
+}
+
+function calcAmount() {
+  const area = prompt('Бөлменің ауданын енгізіңіз (м²):');
+  if (!area || isNaN(area)) return;
+  const coverage = currentProduct?.tech?.coverage || '8 м²/кг';
+  const rate = parseFloat(coverage) || 8;
+  const needed = Math.ceil(area / rate * 10) / 10;
+  alert(`${area} м² үшін: ~${needed} кг бояу керек`);
+}
+
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+window.onload = loadProduct;
+</script>
+</body>
+</html>
