@@ -281,7 +281,7 @@ function setRoom(room, btn) {
   render();
   const firstCode = (AVAILABLE[room] || [])[0];
   if (firstCode) {
-    showPhoto('assets/downlowds/output/' + (FOLDER[room]||room) + '/' + (FILE_PREFIX[room]||room) + firstCode + '.png');
+    showPhoto('assets/downlowds/output/' + (FOLDER[room]||room) + '/' + (FILE_PREFIX[room]||room) + firstCode + '.webp');
   }
   document.getElementById('se').style.display='block';
   document.getElementById('sd').style.display='none';
@@ -369,7 +369,7 @@ function render(keepScroll) {
 function pick(code) {
   sel = NOVA_COLORS.find(x=>x.c===code);
   if(!sel) return;
-  showPhoto('assets/downlowds/output/' + (FOLDER[curRoom]||curRoom) + '/' + (FILE_PREFIX[curRoom]||curRoom) + sel.c + '.png');
+  showPhoto('assets/downlowds/output/' + (FOLDER[curRoom]||curRoom) + '/' + (FILE_PREFIX[curRoom]||curRoom) + sel.c + '.webp');
   document.getElementById('badge').style.display='flex';
   document.getElementById('bd').style.background=sel.h;
   document.getElementById('bn').textContent=sel.c;
@@ -406,7 +406,7 @@ function copy() {
 (function initFirstPhoto(){
   const firstCode = (AVAILABLE[curRoom] || [])[0];
   if (firstCode) {
-    showPhoto('assets/downlowds/output/' + (FOLDER[curRoom]||curRoom) + '/' + (FILE_PREFIX[curRoom]||curRoom) + firstCode + '.png');
+    showPhoto('assets/downlowds/output/' + (FOLDER[curRoom]||curRoom) + '/' + (FILE_PREFIX[curRoom]||curRoom) + firstCode + '.webp');
   }
 })();
 
