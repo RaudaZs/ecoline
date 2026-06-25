@@ -288,6 +288,7 @@ function setRoom(room, btn) {
   document.getElementById('se').style.display='block';
   document.getElementById('sd').style.display='none';
   document.getElementById('badge').style.display='none';
+  setTimeout(() => preloadRoomPhotos(room), 300);
 }
 
 const ROOM_PALETTE = {
@@ -413,6 +414,21 @@ function copy() {
 })();
 
 render();
+
+// Ағымдағы бөлме фотоларын алдын ала жүктеу (preload)
+function preloadRoomPhotos(room) {
+  const codes = AVAILABLE[room] || [];
+  const folder = FOLDER[room] || room;
+  const prefix = FILE_PREFIX[room] || room;
+  codes.forEach(code => {
+    const img = new Image();
+    img.src = ('assets/downlowds/output/' + folder + '/' + prefix + code + '.webp').replace(/ /g, '%20');
+  });
+}
+// Бет жүктелгенде барлық бөлмелерді preload жаса (0.5с кейін, басты контент жүктелгеннен соң)
+setTimeout(() => {
+  ['living','bedroom','kitchen','facade'].forEach(preloadRoomPhotos);
+}, 500);
 </script>
 </body>
 </html>
