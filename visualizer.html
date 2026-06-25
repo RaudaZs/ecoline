@@ -255,6 +255,8 @@ function nearestPhoto(hex, room) {
 
 function showPhoto(src) {
   if(!src) return;
+  // Бос орынды URL encode жасау
+  src = src.replace(/ /g, '%20');
   const img = document.getElementById('room-img');
   img.classList.add('fading');
   document.getElementById('lb').classList.add('on');
