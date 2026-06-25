@@ -425,10 +425,11 @@ function preloadRoomPhotos(room) {
     img.src = ('assets/downlowds/output/' + folder + '/' + prefix + code + '.webp').replace(/ /g, '%20');
   });
 }
-// Бет жүктелгенде барлық бөлмелерді preload жаса (0.5с кейін, басты контент жүктелгеннен соң)
-setTimeout(() => {
-  ['living','bedroom','kitchen','facade'].forEach(preloadRoomPhotos);
-}, 500);
+// Бет жүктелгенде бөлмелерді кезекпен preload жаса (bandwidth бөлінбес үшін)
+setTimeout(() => preloadRoomPhotos('living'), 500);
+setTimeout(() => preloadRoomPhotos('bedroom'), 2000);
+setTimeout(() => preloadRoomPhotos('kitchen'), 3500);
+setTimeout(() => preloadRoomPhotos('facade'), 5000);
 </script>
 </body>
 </html>
