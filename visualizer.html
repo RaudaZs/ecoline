@@ -65,6 +65,37 @@ body{font-family:'Segoe UI',sans-serif;background:#f0f0f0;color:#222}
 .hd-wa{background:#25D366;color:#fff;padding:8px 16px;border-radius:4px;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px}
 .hd-wa:hover{background:#1daf55;color:#fff}
 @media(max-width:640px){.hd-nav{display:none}}
+
+/* ── TABLET 900px ── */
+@media(max-width:900px){
+  .viz-layout{grid-template-columns:1fr}
+  .preview-wrap{min-height:300px;max-height:350px}
+  .room-img{max-height:330px}
+  .page{padding:0 16px;margin:16px auto}
+}
+
+/* ── MOBILE 640px ── */
+@media(max-width:640px){
+  .page{margin:12px auto;padding:0 12px}
+  .viz-title{font-size:18px}
+  .viz-sub{font-size:12px;margin-bottom:12px}
+  .viz-layout{grid-template-columns:1fr;gap:12px}
+  .preview-wrap{min-height:220px;max-height:280px}
+  .room-img{max-height:260px}
+  .sw-grid{grid-template-columns:repeat(8,1fr);gap:3px}
+  .box{padding:12px}
+  .sel-empty{min-height:140px;padding:10px}
+  .hd-inner{height:70px;padding:0 12px}
+  .hd-inner img{height:55px!important}
+  .hd-wa{padding:6px 10px;font-size:11px}
+}
+
+/* ── SMALL 380px ── */
+@media(max-width:380px){
+  .sw-grid{grid-template-columns:repeat(7,1fr)}
+  .preview-wrap{min-height:180px;max-height:240px}
+  .room-img{max-height:220px}
+}
 </style>
 </head>
 <body>
