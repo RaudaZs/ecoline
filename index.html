@@ -673,17 +673,16 @@ footer{background:#111;padding:40px 0 24px}
 <!-- МОБИЛЬ МЕНЮ -->
 <div class="mobile-menu" id="mobile-menu">
   <a onclick="mGoPage('home')" id="mm-home">🏠 Басты бет</a>
-  <div class="mm-head" id="mm-head">Өнімдер</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Фасадтық бояу')" id="mm-fasad">🏠 Фасадтық бояу</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Ішкі бояу')" id="mm-ishki">🎨 Ішкі бояу</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Антимороз')" id="mm-anti">❄️ Антимороз</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Гидроизоляция')" id="mm-hydro">💧 Гидроизоляция</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Грунтовка')" id="mm-grunt">🔧 Грунтовка</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Декоративті')" id="mm-dekor">✨ Декоративті</div>
-  <div class="mm-cat" onclick="mFilterAndGo('Бетон-контакт')" id="mm-beton">🏗️ Бетон-контакт</div>
+  <a onclick="mGoPage('products')" id="mm-head">🎨 Өнімдер</a>
+  <a onclick="mGoPage('about')" id="mm-about">ℹ️ Біз туралы</a>
   <a onclick="mGoPage('colors')" id="mm-colors">🎨 Түстер</a>
   <a onclick="mGoPage('contact')" id="mm-contact">📍 Байланыс</a>
   <a href="tel:+77770050757">📱 +7 777 005 07 57</a>
+  <div style="display:flex;gap:6px;padding:14px 24px;border-bottom:1px solid var(--border)">
+    <button class="lang-btn active" onclick="setLang('kk');document.getElementById('mobile-menu').classList.remove('open');document.querySelector('.burger').classList.remove('open')" id="mm-lang-kk">KAZ</button>
+    <button class="lang-btn" onclick="setLang('ru');document.getElementById('mobile-menu').classList.remove('open');document.querySelector('.burger').classList.remove('open')" id="mm-lang-ru">RU</button>
+    <button class="lang-btn" onclick="setLang('en');document.getElementById('mobile-menu').classList.remove('open');document.querySelector('.burger').classList.remove('open')" id="mm-lang-en">ENG</button>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════ -->
@@ -1237,11 +1236,10 @@ const TRANSLATIONS = {
     dd_fasad:'🏠 Фасадтық бояу', dd_ishki:'🎨 Ішкі бояу', dd_anti:'❄️ Антимороз',
     dd_hydro:'💧 Гидроизоляция', dd_grunt:'🔧 Грунтовка', dd_dekor:'✨ Декоративті', dd_beton:'🏗️ Бетон-контакт',
     // MOBILE MENU
-    mm_home:'🏠 Басты бет', mm_head:'Өнімдер',
+    mm_home:'🏠 Басты бет', mm_head:'🎨 Өнімдер',
     mm_fasad:'🏠 Фасадтық бояу', mm_ishki:'🎨 Ішкі бояу', mm_anti:'❄️ Антимороз',
     mm_hydro:'💧 Гидроизоляция', mm_grunt:'🔧 Грунтовка', mm_dekor:'✨ Декоративті', mm_beton:'🏗️ Бетон-контакт',
-    mm_colors:'🎨 Түстер', mm_contact:'📍 Байланыс',
-    // FOOTER
+    mm_colors:'🎨 Түстер', mm_contact:'📍 Байланыс', mm_about:'ℹ️ Біз туралы',
     ft_desc:'Шымкент бояу зауыты. 9 жыл тәжірибе. Фасадтық, ішкі, декоративті бояулар — тікелей өндірушіден.',
     ft_h_products:'Өнімдер', ft_h_company:'Компания', ft_h_contact:'Байланыс',
     ft_l_fasad:'Фасадтық бояу', ft_l_ishki:'Ішкі бояу', ft_l_anti:'Антимороз', ft_l_hydro:'Гидроизоляция', ft_l_dekor:'Декоративті',
@@ -1339,10 +1337,10 @@ const TRANSLATIONS = {
     dd_head:'Категории',
     dd_fasad:'🏠 Фасадная краска', dd_ishki:'🎨 Интерьерная краска', dd_anti:'❄️ Антимороз',
     dd_hydro:'💧 Гидроизоляция', dd_grunt:'🔧 Грунтовка', dd_dekor:'✨ Декоративная', dd_beton:'🏗️ Бетон-контакт',
-    mm_home:'🏠 Главная', mm_head:'Продукты',
+    mm_home:'🏠 Главная', mm_head:'🎨 Продукты',
     mm_fasad:'🏠 Фасадная краска', mm_ishki:'🎨 Интерьерная краска', mm_anti:'❄️ Антимороз',
     mm_hydro:'💧 Гидроизоляция', mm_grunt:'🔧 Грунтовка', mm_dekor:'✨ Декоративная', mm_beton:'🏗️ Бетон-контакт',
-    mm_colors:'🎨 Цвета', mm_contact:'📍 Контакты',
+    mm_colors:'🎨 Цвета', mm_contact:'📍 Контакты', mm_about:'ℹ️ О нас',
     ft_desc:'Шымкентский завод красок. 9 лет опыта. Фасадные, интерьерные, декоративные краски — напрямую от производителя.',
     ft_h_products:'Продукты', ft_h_company:'Компания', ft_h_contact:'Контакты',
     ft_l_fasad:'Фасадная краска', ft_l_ishki:'Интерьерная краска', ft_l_anti:'Антимороз', ft_l_hydro:'Гидроизоляция', ft_l_dekor:'Декоративная',
@@ -1437,10 +1435,10 @@ const TRANSLATIONS = {
     dd_head:'Categories',
     dd_fasad:'🏠 Facade paint', dd_ishki:'🎨 Interior paint', dd_anti:'❄️ Antifreeze',
     dd_hydro:'💧 Waterproofing', dd_grunt:'🔧 Primer', dd_dekor:'✨ Decorative', dd_beton:'🏗️ Concrete contact',
-    mm_home:'🏠 Home', mm_head:'Products',
+    mm_home:'🏠 Home', mm_head:'🎨 Products',
     mm_fasad:'🏠 Facade paint', mm_ishki:'🎨 Interior paint', mm_anti:'❄️ Antifreeze',
     mm_hydro:'💧 Waterproofing', mm_grunt:'🔧 Primer', mm_dekor:'✨ Decorative', mm_beton:'🏗️ Concrete contact',
-    mm_colors:'🎨 Colors', mm_contact:'📍 Contact',
+    mm_colors:'🎨 Colors', mm_contact:'📍 Contact', mm_about:'ℹ️ About us',
     ft_desc:'Shymkent paint factory. 9 years of experience. Facade, interior, decorative paints — direct from manufacturer.',
     ft_h_products:'Products', ft_h_company:'Company', ft_h_contact:'Contact',
     ft_l_fasad:'Facade paint', ft_l_ishki:'Interior paint', ft_l_anti:'Antifreeze', ft_l_hydro:'Waterproofing', ft_l_dekor:'Decorative',
@@ -1474,6 +1472,8 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   const lb = document.getElementById('lang-' + lang);
   if (lb) lb.classList.add('active');
+  const mlb = document.getElementById('mm-lang-' + lang);
+  if (mlb) mlb.classList.add('active');
   const T = TRANSLATIONS[lang];
 
   // Helper
@@ -1591,7 +1591,7 @@ function setLang(lang) {
   s('mm-home', T.mm_home); s('mm-head', T.mm_head);
   s('mm-fasad', T.mm_fasad); s('mm-ishki', T.mm_ishki); s('mm-anti', T.mm_anti);
   s('mm-hydro', T.mm_hydro); s('mm-grunt', T.mm_grunt); s('mm-dekor', T.mm_dekor); s('mm-beton', T.mm_beton);
-  s('mm-colors', T.mm_colors); s('mm-contact', T.mm_contact);
+  s('mm-colors', T.mm_colors); s('mm-contact', T.mm_contact); s('mm-about', T.mm_about);
 
   // FOOTER
   s('ft-desc', T.ft_desc);
