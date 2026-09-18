@@ -1682,5 +1682,18 @@ function mFilterAndGo(cat) {
   document.getElementById('burger').classList.remove('open');
 }
 </script>
+<script>
+/* Vercel Web Analytics — pageviews and referrers, no cookies, no banner. */
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+window.track = function (name, props) {
+  try { if (window.va) window.va('event', { name: name, data: props || {} }); } catch (e) {}
+};
+/* Every route into the visualizer, so we can tell which entry point works */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href*="ecoline-v2"]');
+  if (a) track('visualizer_open', { from: a.id || a.className || 'link' });
+}, true);
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
